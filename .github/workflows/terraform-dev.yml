@@ -1,0 +1,52 @@
+name: Terraform Dev
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "01_iac/**"
+      - ".github/workflows/terraform-dev.yml"
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-dev:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 01_iac
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.5
+
+      - name: Terraform Init
+        run: terraform init -backend-config="backend.hcl"
+
+      - name: Terraform Fmt
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan (dev)
+        run: terraform plan -var-file="envs/dev.tfvars" -out="tfplan-dev"
+
+      - name: Terraform Apply (dev)
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve "tfplan-dev"
