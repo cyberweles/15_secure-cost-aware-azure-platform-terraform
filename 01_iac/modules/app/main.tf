@@ -1,7 +1,7 @@
 locals {
-  app_rg_name          = "${var.prefix}-${var.env}-weu-rg-app-main"
-  app_service_plan     = "${var.prefix}-${var.env}-weu-asp-main"
-  app_service_name     = "${var.prefix}-${var.env}-weu-app-main"
+  app_rg_name      = "${var.prefix}-${var.env}-weu-rg-app-main"
+  app_service_plan = "${var.prefix}-${var.env}-weu-asp-main"
+  app_service_name = "${var.prefix}-${var.env}-weu-app-main"
 }
 
 resource "azurerm_resource_group" "app_main" {
@@ -17,7 +17,7 @@ resource "azurerm_service_plan" "main" {
   resource_group_name = azurerm_resource_group.app_main.name
 
   os_type  = "Linux"
-  sku_name = "B1"   # DEV tier, realistic
+  sku_name = "B1" # DEV tier, realistic
 
   tags = merge(var.common_tags, { area = "app-plan" })
 }
@@ -32,7 +32,7 @@ resource "azurerm_linux_web_app" "main" {
   https_only = true
 
   site_config {
-    always_on = false
+    always_on  = false
     ftps_state = "Disabled"
   }
 

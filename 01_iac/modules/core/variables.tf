@@ -1,17 +1,17 @@
 variable "env" {
-  type = string
+  type        = string
   description = "Environment (dev/prod)."
 }
 
 variable "location" {
-    type = string
-    description = "Azure location."  
+  type        = string
+  description = "Azure location."
 }
 
 variable "prefix" {
-    type = string
-    description = "Resource name prefix."
-  
+  type        = string
+  description = "Resource name prefix."
+
 }
 
 variable "common_tags" {
@@ -20,16 +20,16 @@ variable "common_tags" {
 }
 
 variable "vnet_address_space" {
-  type = list(string)
+  type        = list(string)
   description = "Address space for the core virtual network."
 }
 
 variable "app_subnet_prefix" {
-  type = string
+  type        = string
   description = "Address prefix for the app subnet."
 }
 
 variable "data_subnet_prefix" {
-  type = string
+  type        = string
   description = "Address prefix for the data subnet."
 }

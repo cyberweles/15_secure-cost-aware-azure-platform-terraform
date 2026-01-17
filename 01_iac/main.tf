@@ -9,8 +9,8 @@ locals {
 
   # Simple address scheme per env
   vnet_address_space = var.env == "dev" ? ["10.10.0.0/16"] : ["10.20.0.0/16"]
-  app_subnet_prefix  = var.env == "dev" ? "10.10.1.0/24"   : "10.20.1.0/24"
-  data_subnet_prefix = var.env == "dev" ? "10.10.2.0/24"   : "10.20.2.0/24"
+  app_subnet_prefix  = var.env == "dev" ? "10.10.1.0/24" : "10.20.1.0/24"
+  data_subnet_prefix = var.env == "dev" ? "10.10.2.0/24" : "10.20.2.0/24"
 }
 
 module "core" {

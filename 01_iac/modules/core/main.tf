@@ -17,11 +17,11 @@ resource "azurerm_resource_group" "core" {
 
 # Log Analytics Workspace (observability base layer)
 resource "azurerm_log_analytics_workspace" "core" {
-  name = "${var.prefix}-${var.env}-weu-law-core"
-  location = var.location
+  name                = "${var.prefix}-${var.env}-weu-law-core"
+  location            = var.location
   resource_group_name = azurerm_resource_group.core.name
 
-  sku = "PerGB2018"
+  sku               = "PerGB2018"
   retention_in_days = 30
 
   tags = merge(var.common_tags, { area = "observability" })
@@ -29,29 +29,29 @@ resource "azurerm_log_analytics_workspace" "core" {
 
 # Platform Storage Account (logs/artifacts etc.)
 resource "azurerm_storage_account" "core" {
-  name = local.storage_account_name
-  location = var.location
-  resource_group_name = azurerm_resource_group.core.name
-  account_tier = "Standard"
+  name                     = local.storage_account_name
+  location                 = var.location
+  resource_group_name      = azurerm_resource_group.core.name
+  account_tier             = "Standard"
   account_replication_type = "LRS"
-  account_kind = "StorageV2"
+  account_kind             = "StorageV2"
 
-  min_tls_version = "TLS1_2"
+  min_tls_version                 = "TLS1_2"
   allow_nested_items_to_be_public = false
-  public_network_access_enabled = true
+  public_network_access_enabled   = true
 
   tags = merge(var.common_tags, { area = "platform-storage" })
 }
 
 # Platform Key Vault (secrets for core + workloads)
 resource "azurerm_key_vault" "core" {
-  name = local.key_vault_name
-  location = var.location
-  resource_group_name = azurerm_resource_group.core.name
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  sku_name = "standard"
-  soft_delete_retention_days = 7
-  purge_protection_enabled = true
+  name                        = local.key_vault_name
+  location                    = var.location
+  resource_group_name         = azurerm_resource_group.core.name
+  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  sku_name                    = "standard"
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = true
   enabled_for_disk_encryption = false
 
   # MVP: RBAC-based access, network tightened later
