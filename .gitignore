@@ -3,5 +3,4 @@
 *.tfstate.*
 .terraform/
 crash.log
-*.tfvars
 *.tfvars.json
